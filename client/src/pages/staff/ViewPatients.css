@@ -1,0 +1,141 @@
+.view-patients .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.view-patients h1 {
+    color: #333;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 300px;
+    gap: 0.5rem;
+    color: #666;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+td {
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.patient-name {
+    font-weight: 500;
+}
+
+.patient-id {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-badge.admitted {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-badge.discharged {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.delete-btn:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .view-patients .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .view-patients h1 {
+        font-size: 1.5rem;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .table-container {
+        border-radius: 8px;
+    }
+
+    th,
+    td {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    th {
+        font-size: 0.8rem;
+    }
+
+    table {
+        min-width: 600px;
+    }
+}

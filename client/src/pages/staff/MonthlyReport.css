@@ -1,0 +1,198 @@
+.monthly-report-page .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.report-container {
+    background: white;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.report-header {
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--primary-red);
+    padding-bottom: 1.5rem;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-area h2 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.logo-area p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.report-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.report-section h3 {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.summary-box {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-box .label {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.summary-box .value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-red);
+}
+
+.report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stats-table td,
+.stats-table th {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    color: #444;
+}
+
+.stats-table th {
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+}
+
+.report-footer {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .monthly-report-page .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .monthly-report-page h1 {
+        font-size: 1.5rem;
+    }
+
+    .report-container {
+        padding: 1.5rem;
+    }
+
+    .report-header {
+        margin-bottom: 2rem;
+    }
+
+    .logo-area h2 {
+        font-size: 1.25rem;
+    }
+
+    .logo-area p {
+        font-size: 0.8rem;
+    }
+
+    .report-section h3 {
+        font-size: 1rem;
+    }
+
+    .summary-box {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .summary-box .label {
+        font-size: 1rem;
+    }
+
+    .summary-box .value {
+        font-size: 1.5rem;
+    }
+
+    .report-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .stats-table td,
+    .stats-table th {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .report-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .staff-layout {
+        display: block;
+        height: auto;
+        background: white;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .staff-content {
+        padding: 0;
+        overflow: visible;
+    }
+
+    .report-container {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: none;
+    }
+}

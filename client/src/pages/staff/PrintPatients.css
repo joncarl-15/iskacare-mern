@@ -1,0 +1,123 @@
+.print-patients-page .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.print-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.print-btn:hover {
+    background-color: #5a6268;
+}
+
+.print-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.print-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    display: none;
+    /* Hidden by default, shown in print */
+}
+
+.print-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.print-table th,
+.print-table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.print-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .print-patients-page .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .print-patients-page h1 {
+        font-size: 1.5rem;
+    }
+
+    .print-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .print-container {
+        padding: 1rem;
+        overflow-x: auto;
+    }
+
+    .print-table {
+        min-width: 600px;
+    }
+
+    .print-table th,
+    .print-table td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .staff-layout {
+        display: block;
+        height: auto;
+        background: white;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .staff-content {
+        padding: 0;
+        overflow: visible;
+    }
+
+    .print-container {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .print-header {
+        display: block;
+    }
+
+    .print-table th,
+    .print-table td {
+        border: 1px solid #000;
+    }
+}
