@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, UserPlus, Users, List, Printer, FileText, LogOut, Menu, X, Bell } from 'lucide-react';
+import { LayoutDashboard, UserPlus, Users, List, Printer, FileText, LogOut, Menu, X, Bell, MessageCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './StaffLayout.css';
 
@@ -9,6 +10,27 @@ const StaffLayout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [pendingCount, setPendingCount] = useState(0);
+
+    useEffect(() => {
+        fetchPendingCount();
+        // Poll every 30 seconds
+        const interval = setInterval(fetchPendingCount, 30000);
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        fetchPendingCount();
+    }, [location]);
+
+    const fetchPendingCount = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/consultation-requests/pending/count');
+            setPendingCount(res.data.count);
+        } catch (error) {
+            console.error('Error fetching pending count:', error);
+        }
+    };
 
     const handleLogout = () => {
         logout();
@@ -27,19 +49,29 @@ const StaffLayout = () => {
 
     return (
         <div className="staff-layout">
-            <button className="mobile-menu-btn" onClick={toggleSidebar}>
-                {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            <button className={`mobile-menu-btn ${isSidebarOpen ? 'hidden' : ''}`} onClick={toggleSidebar}>
+                <Menu size={24} />
             </button>
 
             <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
-                    <h2>Iska-Care</h2>
-                    <p>Staff Portal</p>
+                    <div>
+                        <h2>Iska-Care</h2>
+                        <p>Staff Portal</p>
+                    </div>
+                    <button onClick={closeSidebar} className="sidebar-close-btn">
+                        <X size={24} />
+                    </button>
                 </div>
 
                 <nav className="sidebar-nav">
                     <Link to="/staff/dashboard" className={`nav-item ${isActive('/staff/dashboard') ? 'active' : ''}`} onClick={closeSidebar}>
                         <LayoutDashboard size={20} /> Dashboard
+                    </Link>
+                    <Link to="/staff/consultation-requests" className={`nav-item ${isActive('/staff/consultation-requests') ? 'active' : ''}`} onClick={closeSidebar}>
+                        <MessageCircle size={20} />
+                        Requests
+                        {pendingCount > 0 && <span className="notification-badge">{pendingCount}</span>}
                     </Link>
                     <Link to="/staff/add-patient" className={`nav-item ${isActive('/staff/add-patient') ? 'active' : ''}`} onClick={closeSidebar}>
                         <UserPlus size={20} /> Add Patient

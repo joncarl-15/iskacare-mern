@@ -14,6 +14,8 @@ import Queue from './pages/staff/Queue';
 import PrintPatients from './pages/staff/PrintPatients';
 import MonthlyReport from './pages/staff/MonthlyReport';
 import Announcements from './pages/staff/Announcements';
+import UserDashboard from './pages/user/UserDashboard';
+import ConsultationRequests from './pages/staff/ConsultationRequests';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -27,9 +29,32 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+const UserRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <div>Loading...</div>;
+
+  if (!user || user.role !== 'user') {
+    return <Navigate to="/" />;
+  }
+
+  return children;
+};
+
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [initialRole, setInitialRole] = useState('user');
+
+  const handleGetStartedClick = () => {
+    setInitialRole('user');
+    setIsLoginModalOpen(true);
+  };
+
+  const handleStaffPortalClick = () => {
+    setInitialRole('staff');
+    setIsLoginModalOpen(true);
+  };
 
   return (
     <Router>
@@ -39,7 +64,10 @@ function App() {
             <div className="app">
               <Navbar onMenuClick={() => setIsMobileMenuOpen(true)} />
               <main>
-                <Hero />
+                <Hero
+                  onLoginClick={handleGetStartedClick}
+                  onStaffPortalClick={handleStaffPortalClick}
+                />
                 <Services />
               </main>
               <MobileMenu
@@ -50,8 +78,15 @@ function App() {
               <LoginModal
                 isOpen={isLoginModalOpen}
                 onClose={() => setIsLoginModalOpen(false)}
+                initialRole={initialRole}
               />
             </div>
+          } />
+
+          <Route path="/user/dashboard" element={
+            <UserRoute>
+              <UserDashboard />
+            </UserRoute>
           } />
 
           <Route path="/staff" element={
@@ -67,6 +102,7 @@ function App() {
             <Route path="print-patients" element={<PrintPatients />} />
             <Route path="monthly-report" element={<MonthlyReport />} />
             <Route path="announcements" element={<Announcements />} />
+            <Route path="consultation-requests" element={<ConsultationRequests />} />
           </Route>
         </Routes>
       </AuthProvider>

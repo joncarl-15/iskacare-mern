@@ -153,3 +153,31 @@
     color: var(--text-main);
     margin-bottom: 0.5rem;
 }
+
+.staff-warning {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.3s ease-out;
+}
+
+.staff-warning p {
+    color: #856404;
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

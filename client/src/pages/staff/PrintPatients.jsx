@@ -154,8 +154,9 @@ const PrintPatients = () => {
             yPos += 7;
             doc.text('_________________________________________________________________', 20, yPos);
 
-            // Signature Section
-            yPos = 250; // Fixed position near bottom
+            // Signature Section - use dynamic positioning
+            yPos += 12; // Add spacing before signatures
+
             doc.setFont('helvetica', 'bold');
             doc.text('SIGNATURES', 20, yPos);
             yPos += 10;

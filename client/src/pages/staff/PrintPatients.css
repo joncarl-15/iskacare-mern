@@ -23,36 +23,38 @@
     background-color: #5a6268;
 }
 
-.print-container {
+.patients-table-container {
     background: white;
-    padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-.print-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    display: none;
-    /* Hidden by default, shown in print */
-}
-
-.print-table {
+.patients-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 800px;
 }
 
-.print-table th,
-.print-table td {
-    padding: 0.75rem;
-    border: 1px solid #ddd;
+.patients-table th,
+.patients-table td {
+    padding: 1rem;
+    border: 1px solid #e1e4e8;
     text-align: left;
     font-size: 0.9rem;
 }
 
-.print-table th {
+.patients-table th {
     background-color: #f8f9fa;
     font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.patients-table tbody tr:hover {
+    background-color: #f8f9fa;
 }
 
 @media (max-width: 768px) {
@@ -62,6 +64,11 @@
         gap: 1rem;
     }
 
+    .print-patients-page .page-header>div {
+        width: 100%;
+        flex-direction: column;
+    }
+
     .print-patients-page h1 {
         font-size: 1.5rem;
     }
@@ -69,21 +76,49 @@
     .print-btn {
         width: 100%;
         justify-content: center;
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
     }
 
-    .print-container {
-        padding: 1rem;
-        overflow-x: auto;
+    .print-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
-    .print-table {
-        min-width: 600px;
+    .patients-table-container {
+        margin: 0;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e1e4e8;
     }
 
-    .print-table th,
-    .print-table td {
-        padding: 0.5rem;
-        font-size: 0.8rem;
+    .patients-table {
+        min-width: 1000px;
+    }
+
+    .patients-table th,
+    .patients-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .patients-table td:first-child {
+        position: sticky;
+        left: 0;
+        background-color: white;
+        z-index: 20;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        border-right: 1px solid #e1e4e8;
+    }
+
+    .patients-table th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 30;
+        background-color: #f8f9fa;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        border-right: 1px solid #e1e4e8;
     }
 }
 
@@ -93,31 +128,66 @@
     }
 
     .staff-layout {
-        display: block;
-        height: auto;
-        background: white;
+        display: block !important;
+        height: auto !important;
+        background: white !important;
     }
 
     .sidebar {
-        display: none;
+        display: none !important;
     }
 
     .staff-content {
-        padding: 0;
-        overflow: visible;
+        padding: 0 !important;
+        overflow: visible !important;
+        margin: 0 !important;
     }
 
-    .print-container {
-        box-shadow: none;
-        padding: 0;
+    .print-patients-page {
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
-    .print-header {
-        display: block;
+    .patients-table-container {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        border: none !important;
     }
 
-    .print-table th,
-    .print-table td {
-        border: 1px solid #000;
+    .patients-table {
+        width: 100%;
+        min-width: auto !important;
+        page-break-inside: auto;
+    }
+
+    .patients-table thead {
+        display: table-header-group;
+    }
+
+    .patients-table tbody {
+        display: table-row-group;
+    }
+
+    .patients-table tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    .patients-table th,
+    .patients-table td {
+        border: 1px solid #000 !important;
+        padding: 2mm !important;
+        font-size: 10pt !important;
+    }
+
+    .patients-table th {
+        background-color: #f0f0f0 !important;
+        font-weight: bold !important;
+    }
+
+    @page {
+        margin: 15mm;
+        size: A4 landscape;
     }
 }

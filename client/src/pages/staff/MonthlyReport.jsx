@@ -21,11 +21,18 @@ const MonthlyReport = () => {
     const fetchStats = async () => {
         try {
             const res = await axios.get('http://localhost:5000/api/patients');
-            const patients = res.data;
+            const allPatients = res.data;
 
-            // Filter for current month (optional, currently doing all time for demo)
-            // const currentMonth = new Date().getMonth();
-            // const filteredPatients = patients.filter(p => new Date(p.createdAt).getMonth() === currentMonth);
+            // Filter for current month and year
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+
+            const patients = allPatients.filter(p => {
+                const patientDate = new Date(p.createdAt);
+                return patientDate.getMonth() === currentMonth &&
+                    patientDate.getFullYear() === currentYear;
+            });
 
             const totalPatients = patients.length;
 
@@ -62,68 +69,107 @@ const MonthlyReport = () => {
     };
 
     const exportToExcel = async () => {
-        const wb = new ExcelJS.Workbook();
+        try {
+            // Fetch all patients for current month
+            const res = await axios.get('http://localhost:5000/api/patients');
+            const allPatients = res.data;
 
-        // Sheet 1: Overview
-        const ws1 = wb.addWorksheet('Overview');
-        ws1.columns = [
-            { header: 'Field', key: 'field', width: 25 },
-            { header: 'Value', key: 'value', width: 15 }
-        ];
-        ws1.addRow({ field: 'Iska-Care Monthly Health Report', value: '' });
-        ws1.addRow({ field: '', value: '' });
-        ws1.addRow({ field: 'Report Date', value: new Date().toLocaleDateString() });
-        ws1.addRow({ field: 'Month/Year', value: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) });
-        ws1.addRow({ field: '', value: '' });
-        ws1.addRow({ field: 'Total Patients Served', value: stats.totalPatients });
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
 
-        // Sheet 2: Demographics
-        const ws2 = wb.addWorksheet('Demographics');
-        ws2.columns = [
-            { header: 'Category', key: 'category', width: 15 },
-            { header: 'Count', key: 'count', width: 10 }
-        ];
-        ws2.addRow({ category: 'Gender Distribution', count: '' });
-        ws2.addRow({ category: '', count: '' });
-        ws2.addRow({ category: 'Gender', count: 'Count' });
-        ws2.addRow({ category: 'Male', count: stats.byGender.Male });
-        ws2.addRow({ category: 'Female', count: stats.byGender.Female });
-        ws2.addRow({ category: 'Other', count: stats.byGender.Other });
-        ws2.addRow({ category: '', count: '' });
-        ws2.addRow({ category: 'Total', count: stats.byGender.Male + stats.byGender.Female + stats.byGender.Other });
+            const patients = allPatients.filter(p => {
+                const patientDate = new Date(p.createdAt);
+                return patientDate.getMonth() === currentMonth &&
+                    patientDate.getFullYear() === currentYear;
+            });
 
-        // Sheet 3: Age Groups
-        const ws3 = wb.addWorksheet('Age Groups');
-        ws3.columns = [
-            { header: 'Age Group', key: 'ageGroup', width: 15 },
-            { header: 'Count', key: 'count', width: 10 }
-        ];
-        ws3.addRow({ ageGroup: 'Age Group Distribution', count: '' });
-        ws3.addRow({ ageGroup: '', count: '' });
-        ws3.addRow({ ageGroup: 'Age Group', count: 'Count' });
-        ws3.addRow({ ageGroup: '0-18 years', count: stats.byAgeGroup['0-18'] });
-        ws3.addRow({ ageGroup: '19-25 years', count: stats.byAgeGroup['19-25'] });
-        ws3.addRow({ ageGroup: '26+ years', count: stats.byAgeGroup['26+'] });
-        ws3.addRow({ ageGroup: '', count: '' });
-        ws3.addRow({ ageGroup: 'Total', count: stats.byAgeGroup['0-18'] + stats.byAgeGroup['19-25'] + stats.byAgeGroup['26+'] });
+            const wb = new ExcelJS.Workbook();
+            const ws = wb.addWorksheet(`Monthly Report ${currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`);
 
-        // Sheet 4: Top Conditions
-        const ws4 = wb.addWorksheet('Top Conditions');
-        ws4.columns = [
-            { header: 'Condition', key: 'condition', width: 30 },
-            { header: 'Count', key: 'count', width: 10 }
-        ];
-        ws4.addRow({ condition: 'Top Medical Conditions', count: '' });
-        ws4.addRow({ condition: '', count: '' });
-        ws4.addRow({ condition: 'Condition', count: 'Count' });
-        stats.topConditions.forEach(([condition, count]) => {
-            ws4.addRow({ condition, count });
-        });
+            // Define columns with proper widths
+            ws.columns = [
+                { header: 'Patient Name', key: 'name', width: 20 },
+                { header: 'Age', key: 'age', width: 8 },
+                { header: 'Gender', key: 'gender', width: 12 },
+                { header: 'Student ID', key: 'studentId', width: 15 },
+                { header: 'Course', key: 'course', width: 15 },
+                { header: 'Year Level', key: 'year', width: 12 },
+                { header: 'Patient Type', key: 'patientType', width: 15 },
+                { header: 'Emergency Status', key: 'emergencyStatus', width: 18 },
+                { header: 'Medical Condition', key: 'condition', width: 25 },
+                { header: 'Date Admitted', key: 'dateAdmitted', width: 15 },
+                { header: 'Time In', key: 'timeIn', width: 18 },
+                { header: 'Time Out', key: 'timeOut', width: 18 },
+                { header: 'Nurse Assigned', key: 'nurseAssigned', width: 18 },
+                { header: 'Status', key: 'status', width: 15 }
+            ];
 
-        // Generate and download
-        const buffer = await wb.xlsx.writeBuffer();
-        const data = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        saveAs(data, `Monthly_Report_${new Date().toISOString().split('T')[0]}.xlsx`);
+            // Style the header row
+            ws.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+            ws.getRow(1).fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'FFDC3545' } // Red background
+            };
+            ws.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+            // Add patient data
+            patients.forEach(patient => {
+                ws.addRow({
+                    name: patient.name,
+                    age: patient.age,
+                    gender: patient.gender,
+                    studentId: patient.studentId || '',
+                    course: patient.studentCourse || '',
+                    year: patient.studentYear || '',
+                    patientType: patient.patientType || 'Student',
+                    emergencyStatus: patient.emergencyStatus || 'Non-Emergency',
+                    condition: patient.condition,
+                    dateAdmitted: new Date(patient.createdAt).toLocaleDateString(),
+                    timeIn: new Date(patient.timeIn).toLocaleTimeString(),
+                    timeOut: patient.timeOut ? new Date(patient.timeOut).toLocaleTimeString() : '',
+                    nurseAssigned: patient.doctorAssigned,
+                    status: patient.status || 'Checked Out'
+                });
+            });
+
+            // Add summary section
+            const summaryStartRow = patients.length + 3;
+            ws.mergeCells(`A${summaryStartRow}:N${summaryStartRow}`);
+            ws.getCell(`A${summaryStartRow}`).value = `Monthly Report Summary for ${currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
+            ws.getCell(`A${summaryStartRow}`).font = { bold: true, size: 12 };
+            ws.getCell(`A${summaryStartRow}`).alignment = { horizontal: 'center' };
+
+            const summaryRow = summaryStartRow + 1;
+            ws.getCell(`A${summaryRow}`).value = 'Total Patients:';
+            ws.getCell(`B${summaryRow}`).value = patients.length;
+            ws.getCell(`B${summaryRow}`).font = { bold: true };
+
+            ws.getCell(`C${summaryRow}`).value = 'Emergency Cases:';
+            ws.getCell(`D${summaryRow}`).value = patients.filter(p => p.emergencyStatus === 'Emergency').length;
+            ws.getCell(`D${summaryRow}`).font = { bold: true };
+
+            ws.getCell(`E${summaryRow}`).value = 'Employees:';
+            ws.getCell(`F${summaryRow}`).value = patients.filter(p => p.patientType === 'Employee').length;
+            ws.getCell(`F${summaryRow}`).font = { bold: true };
+
+            ws.getCell(`G${summaryRow}`).value = 'Students:';
+            ws.getCell(`H${summaryRow}`).value = patients.filter(p => p.patientType === 'Student').length;
+            ws.getCell(`H${summaryRow}`).font = { bold: true };
+
+            ws.getCell(`I${summaryRow}`).value = 'Non-Employees:';
+            ws.getCell(`J${summaryRow}`).value = patients.filter(p => p.patientType === 'Non-Employee').length;
+            ws.getCell(`J${summaryRow}`).font = { bold: true };
+
+            // Generate and download
+            const buffer = await wb.xlsx.writeBuffer();
+            const data = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            saveAs(data, `Monthly_Report_${currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }).replace(' ', '_')}.xlsx`);
+        } catch (error) {
+            console.error('Error exporting to Excel:', error);
+            alert('Failed to export to Excel');
+        }
     };
 
     return (

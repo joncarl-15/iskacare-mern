@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Stethoscope, Activity, User } from 'lucide-react';
+import { Stethoscope, Activity, User, Briefcase } from 'lucide-react';
 import './Hero.css';
 
-const Hero = () => {
+const Hero = ({ onLoginClick, onStaffPortalClick }) => {
     return (
         <section className="hero-section">
 
@@ -21,8 +21,24 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                 >
                     Your Physical <br />
-                    <span className="text-red">Health Matters</span>
+                    <span className="text-red health-matters-text">Health Matters</span>
                 </motion.h1>
+
+                <motion.div
+                    className="hero-buttons-mobile"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.15 }}
+                >
+                    <button className="hero-btn hero-btn-primary" onClick={onLoginClick}>
+                        <User size={18} />
+                        Get Started
+                    </button>
+                    <button className="hero-btn hero-btn-secondary" onClick={onStaffPortalClick}>
+                        <Briefcase size={18} />
+                        Access Staff Portal
+                    </button>
+                </motion.div>
 
                 <motion.p
                     className="hero-subtitle"
@@ -33,6 +49,22 @@ const Hero = () => {
                     Modern Care for the Modern Iskolar ng Bayan.
                     Providing accessible and quality healthcare services for the PUP community.
                 </motion.p>
+
+                <motion.div
+                    className="hero-buttons"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                >
+                    <button className="hero-btn hero-btn-primary" onClick={onLoginClick}>
+                        <User size={18} />
+                        Get Started
+                    </button>
+                    <button className="hero-btn hero-btn-secondary" onClick={onStaffPortalClick}>
+                        <Briefcase size={18} />
+                        Access Staff Portal
+                    </button>
+                </motion.div>
 
                 <motion.div
                     className="nurse-info-card"
