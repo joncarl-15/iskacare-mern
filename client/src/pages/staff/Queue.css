@@ -5,6 +5,10 @@
     margin-bottom: 2rem;
 }
 
+.queue-page h1 {
+    color: var(--primary-red);
+}
+
 .queue-count {
     display: flex;
     align-items: center;

@@ -6,7 +6,7 @@
 }
 
 .view-patients h1 {
-    color: #333;
+    color: var(--primary-red);
 }
 
 .search-bar {

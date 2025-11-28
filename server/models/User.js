@@ -6,6 +6,13 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
     password: {
         type: String,
         required: true
@@ -14,6 +21,16 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ['user', 'staff'],
         default: 'user'
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationCode: {
+        type: String
+    },
+    verificationCodeExpiry: {
+        type: Date
     }
 }, { timestamps: true });
 

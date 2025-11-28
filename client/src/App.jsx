@@ -16,6 +16,7 @@ import MonthlyReport from './pages/staff/MonthlyReport';
 import Announcements from './pages/staff/Announcements';
 import UserDashboard from './pages/user/UserDashboard';
 import ConsultationRequests from './pages/staff/ConsultationRequests';
+import StaffMessages from './pages/staff/StaffMessages';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -103,6 +104,7 @@ function App() {
             <Route path="monthly-report" element={<MonthlyReport />} />
             <Route path="announcements" element={<Announcements />} />
             <Route path="consultation-requests" element={<ConsultationRequests />} />
+            <Route path="messages" element={<StaffMessages />} />
           </Route>
         </Routes>
       </AuthProvider>

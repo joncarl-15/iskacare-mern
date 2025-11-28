@@ -25,7 +25,7 @@ const StaffLayout = () => {
 
     const fetchPendingCount = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/consultation-requests/pending/count');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/consultation-requests/pending/count`);
             setPendingCount(res.data.count);
         } catch (error) {
             console.error('Error fetching pending count:', error);
@@ -72,6 +72,9 @@ const StaffLayout = () => {
                         <MessageCircle size={20} />
                         Requests
                         {pendingCount > 0 && <span className="notification-badge">{pendingCount}</span>}
+                    </Link>
+                    <Link to="/staff/messages" className={`nav-item ${isActive('/staff/messages') ? 'active' : ''}`} onClick={closeSidebar}>
+                        <MessageCircle size={20} /> Messages
                     </Link>
                     <Link to="/staff/add-patient" className={`nav-item ${isActive('/staff/add-patient') ? 'active' : ''}`} onClick={closeSidebar}>
                         <UserPlus size={20} /> Add Patient

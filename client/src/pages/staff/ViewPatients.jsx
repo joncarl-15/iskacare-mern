@@ -13,7 +13,7 @@ const ViewPatients = () => {
 
     const fetchPatients = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/patients');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients`);
             setPatients(res.data);
         } catch (error) {
             console.error('Error fetching patients:', error);
@@ -27,7 +27,7 @@ const ViewPatients = () => {
 
         if (confirmDelete) {
             try {
-                await axios.delete(`http://localhost:5000/api/patients/${patientId}`);
+                await axios.delete(`${import.meta.env.VITE_API_URL}/api/patients/${patientId}`);
                 alert('Patient deleted successfully');
                 fetchPatients(); // Refresh the list
             } catch (error) {

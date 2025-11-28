@@ -5,6 +5,10 @@
     margin-bottom: 2rem;
 }
 
+.print-patients-page h1 {
+    color: var(--primary-red);
+}
+
 .print-btn {
     display: flex;
     align-items: center;

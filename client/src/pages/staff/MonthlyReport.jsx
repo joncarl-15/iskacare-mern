@@ -20,7 +20,7 @@ const MonthlyReport = () => {
 
     const fetchStats = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/patients');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients`);
             const allPatients = res.data;
 
             // Filter for current month and year
@@ -71,7 +71,7 @@ const MonthlyReport = () => {
     const exportToExcel = async () => {
         try {
             // Fetch all patients for current month
-            const res = await axios.get('http://localhost:5000/api/patients');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients`);
             const allPatients = res.data;
 
             const currentDate = new Date();

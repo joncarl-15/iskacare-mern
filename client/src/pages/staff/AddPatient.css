@@ -1,6 +1,6 @@
 .add-patient h1 {
     margin-bottom: 2rem;
-    color: #333;
+    color: var(--primary-red);
 }
 
 .patient-form {

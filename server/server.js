@@ -27,6 +27,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/patients', patientRoute);
 app.use('/api/announcements', announcementRoute);
 app.use('/api/consultation-requests', consultationRequestRoute);
+app.use('/api/messages', require('./routes/message.routes'));
 
 app.get('/', (req, res) => {
     res.send('Iska-Care API is running');

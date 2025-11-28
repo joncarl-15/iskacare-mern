@@ -38,17 +38,13 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const patientsRes = await axios.get('http://localhost:5000/api/patients');
-                const queueRes = await axios.get('http://localhost:5000/api/patients/queue');
-
-                const today = new Date().toDateString();
-                const servedToday = patientsRes.data.filter(p =>
-                    new Date(p.createdAt).toDateString() === today
-                ).length;
+                // Fetch dashboard stats from a single endpoint
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/stats/dashboard`);
+                const { totalPatients, inQueue, servedToday, patientRegistrationTrends } = res.data;
 
                 setStats({
-                    totalPatients: patientsRes.data.length,
-                    inQueue: queueRes.data.length,
+                    totalPatients,
+                    inQueue,
                     servedToday
                 });
 
@@ -62,11 +58,11 @@ const Dashboard = () => {
                     const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                     last7Days.push(dateStr);
 
-                    const count = patientsRes.data.filter(p => {
-                        const patientDate = new Date(p.createdAt);
-                        return patientDate.toDateString() === date.toDateString();
-                    }).length;
-
+                    // Use the data from the API if available, otherwise default to 0
+                    // Assuming patientRegistrationTrends is an array of counts ordered by date
+                    // If the API returns something else, we might need to adjust.
+                    // For now, let's assume the API returns the counts for the last 7 days.
+                    const count = patientRegistrationTrends && patientRegistrationTrends[6 - i] ? patientRegistrationTrends[6 - i] : 0;
                     patientCounts.push(count);
                 }
 
@@ -75,7 +71,7 @@ const Dashboard = () => {
                     datasets: [
                         {
                             label: 'Patients Registered',
-                            data: patientCounts,
+                            data: patientRegistrationTrends || [], // Use the API data directly if it matches the labels
                             borderColor: 'rgb(220, 53, 69)',
                             backgroundColor: 'rgba(220, 53, 69, 0.1)',
                             tension: 0.4,

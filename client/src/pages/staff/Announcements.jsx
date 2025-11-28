@@ -21,7 +21,7 @@ const Announcements = () => {
 
     const fetchAnnouncements = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/announcements/all');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/announcements/all`);
             setAnnouncements(res.data);
         } catch (error) {
             console.error('Error fetching announcements:', error);
@@ -38,7 +38,7 @@ const Announcements = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/announcements', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/announcements`, {
                 ...formData,
                 author: user?.username || 'Staff'
             });
@@ -64,7 +64,7 @@ const Announcements = () => {
 
         if (confirmDelete) {
             try {
-                await axios.delete(`http://localhost:5000/api/announcements/${id}`);
+                await axios.delete(`${import.meta.env.VITE_API_URL}/api/announcements/${id}`);
                 alert('Announcement deleted successfully');
                 fetchAnnouncements();
             } catch (error) {
@@ -76,7 +76,7 @@ const Announcements = () => {
 
     const toggleActive = async (id, currentStatus) => {
         try {
-            await axios.put(`http://localhost:5000/api/announcements/${id}`, {
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/announcements/${id}`, {
                 isActive: !currentStatus
             });
             fetchAnnouncements();

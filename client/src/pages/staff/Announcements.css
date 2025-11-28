@@ -285,4 +285,17 @@
     .toggle-btn {
         flex: 1;
     }
+
+    /* Mobile Font Sizes */
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .announcements-list h2 {
+        font-size: 1.25rem;
+    }
+
+    .announcement-item h3 {
+        font-size: 1.1rem;
+    }
 }

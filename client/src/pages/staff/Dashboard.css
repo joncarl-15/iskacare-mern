@@ -1,6 +1,6 @@
 .dashboard h1 {
     margin-bottom: 2rem;
-    color: #333;
+    color: var(--primary-red);
 }
 
 .stats-grid {
@@ -88,5 +88,10 @@
     .chart-container {
         height: 300px;
         padding: 1rem;
+    }
+
+    .dashboard h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
     }
 }

@@ -12,7 +12,7 @@ const Queue = () => {
 
     const fetchQueue = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/patients/queue');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients/queue`);
             setQueue(res.data);
         } catch (error) {
             console.error('Error fetching queue:', error);
@@ -22,9 +22,7 @@ const Queue = () => {
     const handleDischarge = async (id) => {
         if (window.confirm('Are you sure you want to discharge this patient?')) {
             try {
-                await axios.put(`http://localhost:5000/api/patients/${id}`, {
-                    timeOut: new Date()
-                });
+                await axios.put(`${import.meta.env.VITE_API_URL}/api/queue/${id}/status`, { status: 'discharged', timeOut: new Date() });
                 fetchQueue(); // Refresh queue
             } catch (error) {
                 console.error('Error discharging patient:', error);

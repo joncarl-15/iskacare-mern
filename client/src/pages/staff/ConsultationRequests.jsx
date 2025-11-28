@@ -16,7 +16,7 @@ const ConsultationRequests = () => {
 
     const fetchRequests = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/consultation-requests');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/consultation-requests`);
             setRequests(res.data);
         } catch (error) {
             console.error('Error fetching requests:', error);
@@ -30,7 +30,7 @@ const ConsultationRequests = () => {
 
         setLoading(true);
         try {
-            await axios.put(`http://localhost:5000/api/consultation-requests/${requestId}/approve`, {
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/consultation-requests/${requestId}/approve`, {
                 assignedNurse: user?.username || 'Staff'
             });
             alert('✅ Request approved! Patient added to queue.');
@@ -49,7 +49,7 @@ const ConsultationRequests = () => {
 
         setLoading(true);
         try {
-            await axios.put(`http://localhost:5000/api/consultation-requests/${requestId}/reject`, {
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/consultation-requests/${requestId}/reject`, {
                 notes
             });
             alert('Request rejected');

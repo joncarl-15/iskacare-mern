@@ -8,7 +8,7 @@
 }
 
 .consultation-requests-page h1 {
-    color: #333;
+    color: var(--primary-red);
     font-size: 1.75rem;
 }
 
@@ -250,5 +250,9 @@
 
     .request-card-actions {
         flex-direction: column;
+    }
+
+    .consultation-requests-page h1 {
+        font-size: 1.5rem;
     }
 }
