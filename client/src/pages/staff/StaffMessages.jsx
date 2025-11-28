@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { Send, MessageCircle, User, ArrowLeft } from 'lucide-react';
+import { formatTime } from '../../utils/dateUtils';
 import './StaffMessages.css';
 
 const StaffMessages = () => {
@@ -117,7 +118,7 @@ const StaffMessages = () => {
                                     >
                                         {msg.content}
                                         <div className="message-time">
-                                            {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            {formatTime(msg.createdAt)}
                                         </div>
                                     </div>
                                 );

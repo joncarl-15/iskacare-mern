@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Clock, CheckCircle } from 'lucide-react';
+import { Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { formatTime } from '../../utils/dateUtils';
 import './Queue.css';
 
 const Queue = () => {
@@ -12,7 +14,7 @@ const Queue = () => {
 
     const fetchQueue = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients/queue`);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL} /api/patients / queue`);
             setQueue(res.data);
         } catch (error) {
             console.error('Error fetching queue:', error);
@@ -22,7 +24,7 @@ const Queue = () => {
     const handleDischarge = async (id) => {
         if (window.confirm('Are you sure you want to discharge this patient?')) {
             try {
-                await axios.put(`${import.meta.env.VITE_API_URL}/api/queue/${id}/status`, { status: 'discharged', timeOut: new Date() });
+                await axios.put(`${import.meta.env.VITE_API_URL} /api/queue / ${id}/status`, { status: 'discharged', timeOut: new Date() });
                 fetchQueue(); // Refresh queue
             } catch (error) {
                 console.error('Error discharging patient:', error);
@@ -50,7 +52,7 @@ const Queue = () => {
                         <div key={patient._id} className="queue-card">
                             <div className="queue-header">
                                 <span className="queue-time">
-                                    In: {new Date(patient.timeIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    In: {formatTime(patient.timeIn)}
                                 </span>
                                 <span className="queue-status">Active</span>
                             </div>

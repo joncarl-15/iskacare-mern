@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Search, Trash2 } from 'lucide-react';
+import { formatDate } from '../../utils/dateUtils';
 import './ViewPatients.css';
 
 const ViewPatients = () => {
@@ -73,7 +74,7 @@ const ViewPatients = () => {
                     <tbody>
                         {filteredPatients.map(patient => (
                             <tr key={patient._id}>
-                                <td>{new Date(patient.createdAt).toLocaleDateString()}</td>
+                                <td>{formatDate(patient.createdAt)}</td>
                                 <td>
                                     <div className="patient-name">{patient.name}</div>
                                     <div className="patient-id">{patient.studentId}</div>

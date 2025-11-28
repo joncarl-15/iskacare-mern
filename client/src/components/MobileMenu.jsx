@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, LogIn, Bell } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { formatDate } from '../utils/dateUtils';
 import './MobileMenu.css';
 
 const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
@@ -66,7 +68,7 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
                                         <div className="announcement-meta">
                                             <span className="author">By {announcement.author}</span>
                                             <span className="date">
-                                                {new Date(announcement.createdAt).toLocaleDateString()}
+                                                {formatDate(announcement.createdAt)}
                                             </span>
                                         </div>
                                     </div>

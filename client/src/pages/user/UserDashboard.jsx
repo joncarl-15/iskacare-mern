@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { Send, Clock, CheckCircle, XCircle, LogOut, FileText, AlertCircle, Menu, X, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { formatTime, formatDate } from '../../utils/dateUtils';
 import './UserDashboard.css';
 
 const UserDashboard = () => {
@@ -369,7 +370,7 @@ const UserDashboard = () => {
                                                         {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                                     </span>
                                                     <span className="request-date">
-                                                        {new Date(request.createdAt).toLocaleDateString()}
+                                                        {formatDate(request.createdAt)}
                                                     </span>
                                                 </div>
                                                 <p className="request-condition">{request.condition}</p>
@@ -404,7 +405,7 @@ const UserDashboard = () => {
                                             >
                                                 {msg.content}
                                                 <div className="message-time">
-                                                    {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    {formatTime(msg.createdAt)}
                                                 </div>
                                             </div>
                                         );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Trash2, AlertCircle } from 'lucide-react';
+import { Megaphone, Calendar, Trash2, Plus, X } from 'lucide-react';
+import { formatDate } from '../../utils/dateUtils';
 import { useAuth } from '../../context/AuthContext';
 import './Announcements.css';
 
@@ -170,7 +171,7 @@ const Announcements = () => {
                                     <div className="meta">
                                         <span className="author">By {announcement.author}</span>
                                         <span className="date">
-                                            {new Date(announcement.createdAt).toLocaleDateString()}
+                                            {formatDate(announcement.createdAt)}
                                         </span>
                                     </div>
 
