@@ -33,6 +33,34 @@ app.get('/', (req, res) => {
     res.send('Iska-Care API is running');
 });
 
+// Diagnostic Endpoint
+app.get('/api/debug', async (req, res) => {
+    const report = {
+        mongo: {
+            status: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+            readyState: mongoose.connection.readyState,
+            host: mongoose.connection.host
+        },
+        env: {
+            hasMongoUri: !!process.env.MONGO_URI,
+            hasEmailUser: !!process.env.EMAIL_USER,
+            hasEmailPass: !!process.env.EMAIL_PASS
+        }
+    };
+
+    try {
+        // Test DB Read
+        if (mongoose.connection.readyState === 1) {
+            const collections = await mongoose.connection.db.listCollections().toArray();
+            report.mongo.collections = collections.map(c => c.name);
+        }
+    } catch (err) {
+        report.mongo.error = err.message;
+    }
+
+    res.json(report);
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
