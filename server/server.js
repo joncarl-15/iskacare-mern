@@ -14,7 +14,11 @@ const announcementRoute = require('./routes/announcements');
 const consultationRequestRoute = require('./routes/consultationRequest.routes');
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: ["https://iskacare.vercel.app", "http://localhost:5173", "http://localhost:3000"], // Add your frontend URL here
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(express.json());
 
 // Database Connection
@@ -74,6 +78,10 @@ app.get('/api/debug', async (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;
