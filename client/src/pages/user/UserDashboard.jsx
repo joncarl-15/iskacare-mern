@@ -80,7 +80,7 @@ const UserDashboard = () => {
 
     const fetchMessages = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/messages/staff/conversations`);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/messages/user/${user.id}`);
             setMessages(res.data);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -122,7 +122,7 @@ const UserDashboard = () => {
         setLoading(true);
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/consultations`, formData);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/consultation-requests`, formData);
             alert('✅ Consultation request submitted successfully! Please wait for staff approval.');
 
             // Reset form
