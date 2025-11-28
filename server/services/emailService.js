@@ -88,7 +88,17 @@ const sendPasswordResetEmail = async (email, code) => {
     }
 };
 
+const verifyConnection = async () => {
+    try {
+        await transporter.verify();
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+};
+
 module.exports = {
     sendVerificationEmail,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    verifyConnection
 };

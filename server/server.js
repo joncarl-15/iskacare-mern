@@ -35,12 +35,24 @@ app.get('/', (req, res) => {
 
 // Diagnostic Endpoint
 app.get('/api/debug', async (req, res) => {
+    const { verifyConnection } = require('./services/emailService');
+
+    // Test Email Connection
+    let emailStatus = { success: false, error: 'Not tested' };
+    try {
+        emailStatus = await verifyConnection();
+    } catch (e) {
+        emailStatus = { success: false, error: e.message };
+    }
+
     const report = {
         mongo: {
-            status: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+            status: mongoose.connection.readyState === 1 ? 'Connected' :
+                mongoose.connection.readyState === 2 ? 'Connecting' : 'Disconnected',
             readyState: mongoose.connection.readyState,
             host: mongoose.connection.host
         },
+        email: emailStatus,
         env: {
             hasMongoUri: !!process.env.MONGO_URI,
             hasEmailUser: !!process.env.EMAIL_USER,
